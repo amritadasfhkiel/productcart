@@ -1,0 +1,23 @@
+<script>
+    var socket = io();
+    socket.emit('initialized');
+
+    $("#btn_submit").click(function () {
+
+        socket.emit('user_login', {
+            email : $("#txt_email").val(),
+            password : $("#txt_pass").val()
+        });
+
+        return false;
+    });
+    
+    socket.on('user_login_response', function (params) {
+       if(params.authenticated) {
+           $("#lbl_response").addClass('hidden');
+           window.location.href = "/product";
+       }else {
+           $("#lbl_response").removeClass('hidden');
+       }
+    });
+</script>

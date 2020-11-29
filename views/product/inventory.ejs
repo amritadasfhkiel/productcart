@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+
+    <%- include ../includes/includes.ejs %>
+
+</head>
+<body>
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Add Items to Inventory</div>
+            <div class="panel-body">
+                <form>
+                    <div class="input-group">
+                        <span class="input-group-addon">Product Name</span>
+                        <input type="text" required class="form-control" placeholder="Product Name" aria-describedby="basic-addon1" id="txt_product_name">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Product Quantity</span>
+                        <input type="text" required class="form-control" placeholder="Product Quantity" aria-describedby="basic-addon1" id="txt_product_qty">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Product Price/Unit</span>
+                        <input type="text" required class="form-control" placeholder="Product Price/Unit" aria-describedby="basic-addon1" id="txt_product_price">
+                    </div>
+                    <p></p>
+                    <button type="submit" class="btn btn-primary" id="btn_submit">Add Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-16 col-md-16 col-sm-16 col-xs-16">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Inventory</div>
+            <div class="panel-body">
+                <!-- Table -->
+                <table class="table">
+                    <thead>
+                    <td>Product</td>
+                    <td>Quantity</td>
+                    <td>Price/Unit</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(function (item, index) { %>
+                        <tr>
+                            <td><%= item.product_name %></td>
+                            <td><%= item.product_quantity %></td>
+                            <td><%= item.product_price %></td>
+                            <td><a class="a_edit" id="<%= item.product_id %>">Edit</a></td>
+                            <td><a class="a_delete" id="<%= item.product_id %>">Delete</a></td>
+                        </tr>
+                         <% });
+                        %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include socket.ejs %>
+
+</body>
+</html>

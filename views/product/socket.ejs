@@ -1,0 +1,62 @@
+<script>
+    var socket = io();
+    socket.emit('initialized');
+
+    $("#btn_submit").click(function () {
+
+        socket.emit('product_add', {
+            product_name : $("#txt_product_name").val(),
+            product_quantity : $("#txt_product_qty").val(),
+            product_price : $("#txt_product_price").val()
+        });
+
+        return false;
+    });
+
+    $("td").on('click', 'a.a_delete', function () {
+
+        socket.emit('product_delete', {
+            product_id :  $(this).attr('id')
+        });
+
+    });
+
+    socket.on('product_add_response', function (params) {
+        if(params.added = true) {
+            var row = $('<tr></tr>');
+
+            var name = $('<td></td>');
+            name.html($("#txt_product_name").val());
+            row.append(name);
+            $("#txt_product_name").val('')
+
+            var quantity = $('<td></td>');
+            quantity.html($("#txt_product_qty").val());
+            row.append(quantity);
+            $("#txt_product_qty").val('')
+
+            var price = $('<td></td>');
+            price.html($("#txt_product_price").val());
+            row.append(price);
+            $("#txt_product_price").val('')
+
+            var edit_a = $('<td><a class="a_edit" id="' + params.insertId + '">Edit</a></td>');
+            row.append(edit_a);
+
+            var delete_a = $('<td><a class="a_delete" id="' + params.insertId + '">Delete</a></td>');
+            row.append(delete_a);
+
+            $("tbody").append(row);
+        }
+
+    });
+
+    socket.on('product_delete_response', function (params) {
+        if(params.deleted) {
+            $('a[id="'+params.product_id+'"]').parent().parent().remove();
+        }else {
+            alert('Ops! Something went wrong.');
+        }
+    });
+
+</script>
